@@ -1,0 +1,8 @@
+    {
+    "Description": "my centos",
+    "Format": "VMDK",
+    "UserBucket": {
+        "S3Bucket": "vmmigrationonpremise1",
+        "S3Key": ""
+    }
+}
