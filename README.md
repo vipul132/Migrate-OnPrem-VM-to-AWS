@@ -51,7 +51,7 @@ The on-premises VM is exported in **OVF format**, uploaded to an **Amazon S3 buc
                 │    vmmigration      │
                 └─────────────────────┘
 
-![OVF Export](/Screenshots/project.png)
+![OVF Export](./Screenshots/project.png)
 🛠️ Technologies Used
 VMware / Virtualization
 Linux / CentOS
