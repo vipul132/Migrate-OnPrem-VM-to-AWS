@@ -98,9 +98,9 @@ VM.vmdk
 VM.mf
 
 The VMDK file contains the virtual machine's disk data.
+![Create S3 Bucket](S3_Bucket.png)
 ![OVF Export](./Screenshots/VM_Export.png)
-![OVF Export](https://github.com/vipul132/Migrate-OnPrem-VM-to-AWS/blob/master/VM_Export.png)
-![Architecture](https://github.com/vipul132/Migrate-OnPrem-VM-to-AWS/blob/master/VM_Export.png))
+<img src="./Screenshots/VM_Export.png" alt="VM Export" width="800"/>
 
 ☁️ AWS Configuration
 Step 3 — Create an S3 Bucket
