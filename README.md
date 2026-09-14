@@ -87,6 +87,11 @@ On-Premises Server
               └── CentOS / Linux
 
 The VM will be migrated from the on-premises environment to AWS Cloud.
+```markdown
+![Create S3 Bucket](S3_Bucket.png)
+![OVF Export](./Screenshots/VM_Export.png)
+<img src="./Screenshots/VM_Export.png" alt="VM Export" width="800"/>
+![OVF Export](./VM_Export.png)
 
 Step 2 — Export On-Premises VM
 
