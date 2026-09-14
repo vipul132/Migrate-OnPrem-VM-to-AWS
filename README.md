@@ -3,6 +3,10 @@ Absolutely. Below is a clean, professional GitHub README.md for your project. Iâ
 # ðŸš€ Migration of On-Premise VM to AWS Cloud
 
 This project demonstrates how to migrate an **on-premises Virtual Machine (VM)** to **Amazon Web Services (AWS)** using the VM Export/Import process.
+![Create S3 Bucket](S3_Bucket.png)
+![OVF Export](./Screenshots/VM_Export.png)
+<img src="./Screenshots/VM_Export.png" alt="VM Export" width="800"/>
+![OVF Export](./VM_Export.png)
 
 The on-premises VM is exported in **OVF format**, uploaded to an **Amazon S3 bucket**, imported into AWS as a snapshot, converted into an **AMI**, and finally launched as an **EC2 instance**.
 
