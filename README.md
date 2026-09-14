@@ -3,10 +3,9 @@ Absolutely. Below is a clean, professional GitHub README.md for your project. I�
 # 🚀 Migration of On-Premise VM to AWS Cloud
 
 This project demonstrates how to migrate an **on-premises Virtual Machine (VM)** to **Amazon Web Services (AWS)** using the VM Export/Import process.
-![Create S3 Bucket](S3_Bucket.png)
-![OVF Export](./Screenshots/VM_Export.png)
-<img src="./Screenshots/VM_Export.png" alt="VM Export" width="800"/>
-![OVF Export](./VM_Export.png)
+
+
+
 
 The on-premises VM is exported in **OVF format**, uploaded to an **Amazon S3 bucket**, imported into AWS as a snapshot, converted into an **AMI**, and finally launched as an **EC2 instance**.
 
@@ -88,10 +87,6 @@ On-Premises Server
 
 The VM will be migrated from the on-premises environment to AWS Cloud.
 
-![Create S3 Bucket](S3_Bucket.png)
-![OVF Export](./Screenshots/VM_Export.png)
-<img src="./Screenshots/VM_Export.png" alt="VM Export" width="800"/>
-![OVF Export](./VM_Export.png)
 
 Step 2 — Export On-Premises VM
 
@@ -108,10 +103,7 @@ VM.vmdk
 VM.mf
 
 The VMDK file contains the virtual machine's disk data.
-![Create S3 Bucket](S3_Bucket.png)
 ![OVF Export](./Screenshots/VM_Export.png)
-<img src="./Screenshots/VM_Export.png" alt="VM Export" width="800"/>
-![OVF Export](./VM_Export.png)
 
 ☁️ AWS Configuration
 Step 3 — Create an S3 Bucket
@@ -136,6 +128,7 @@ Bucket Versioning  : Disabled
 Bucket Key         : Disabled
 
 ⚠️ Security Note: Avoid enabling public access to the S3 bucket in a production environment. VM disk images can contain sensitive operating-system and application data. Prefer private access with appropriate IAM permissions.
+![OVF Export](./Screenshots/S3_Bucket.png)
 
 Step 4 — Upload VM Files to S3
 
@@ -150,6 +143,7 @@ vmmigrationonprem/
 └── VM.mf
 
 The VMDK file is the most important file because it contains the VM disk.
+![OVF Export](./Screenshots/Import_VM_OVF_files.png)
 
 💻 AWS CLI Configuration
 Step 5 — Install AWS CLI
@@ -163,6 +157,8 @@ aws --version
 Example:
 
 aws-cli/2.x.x Python/3.x.x Linux/x86_64
+![OVF Export](./Screenshots/install_AWS_CLI.png)
+
 Step 6 — Configure AWS CLI
 
 AWS CLI needs credentials to communicate with your AWS account.
@@ -195,6 +191,7 @@ aws iam get-user
 
 when the configured identity is an IAM user and has permission to call that API.
 
+
 👤 AWS User Types
 
 AWS commonly provides different ways to interact with AWS resources.
@@ -221,6 +218,8 @@ Secret Access Key
 ⚠️ Never upload AWS Access Keys or Secret Keys to GitHub.
 
 For production environments, prefer temporary credentials/roles where possible.
+![OVF Export](./Screenshots/Config_AWS_CLI.png)
+![OVF Export](./Screenshots/config_AWS_CLI_PATH.png)
 
 🔐 Step 7 — Create VM Import IAM Role
 
@@ -255,6 +254,7 @@ Create the IAM role:
 aws iam create-role \
     --role-name vmimport \
     --assume-role-policy-document file://trust-policy.json
+![OVF Export](./Screenshots/create_role_in_cli.png)
 🔑 Step 8 — Attach IAM Policy
 
 The vmimport role requires permissions to access the S3 bucket and perform the required VM Import/Export operations.
@@ -270,6 +270,7 @@ VM Import/Export permissions
 Then attach the policy to:
 
 IAM → Roles → vmimport
+![OVF Export](./Screenshots/Import_VM_OVF_files.png)
 💾 Step 9 — Import VM as Snapshot
 
 Create a file:
@@ -298,6 +299,7 @@ aws ec2 import-snapshot \
     --disk-container "file://containers.json"
 
 AWS will start the VM import process.
+![OVF Export](./Screenshots/import_vm_cli.png)
 
 🔎 Step 10 — Check Import Status
 
@@ -324,6 +326,8 @@ EC2
 Snapshots
 
 Wait until the snapshot import is completed.
+![OVF Export](./Screenshots/import_vm_cli_2.png)
+![OVF Export](./Screenshots/import_vm_cli_3.png)
 
 🖼️ Step 11 — Create AMI from Snapshot
 
@@ -351,6 +355,7 @@ Delete-on-termination settings
 AWS will create an:
 
 AMI
+![OVF Export](./Screenshots/create_img_from_snapshot.png)
 🚀 Step 12 — Launch EC2 Instance
 
 Navigate to:
@@ -376,6 +381,8 @@ Security Group: Required security rules
 Storage       : According to requirement
 
 Finally, launch the instance.
+![OVF Export](./Screenshots/AMI.png)
+![OVF Export](./Screenshots/Launch_EC2.png)
 
 ✅ Final Result
 
@@ -420,6 +427,7 @@ Public IP / Elastic IP (if required)
 Security Group
 Route Table
 Subnet
+![OVF Export](./Screenshots/Launch_EC2_2.png)
 3. Operating System
 
 Connect to the migrated server using SSH:
