@@ -1,0 +1,57 @@
+step 1 - You have your on-premise server (vm server)
+Step 2 - Export on-premise server in ovf format
+Step 3 - Login Into your AWS Management Account 
+       - Create a S3 Bucket name - vmmigrationonpremise1
+       - Enable Public Access
+       - Bucket versioning disable 
+       - Bucket key disable
+       - create bucket
+Step 4 - Upload VM OVF file in S3 Bucket
+Step 5 - Install AWS CLI tool on your Laptop/Server
+Your AWS CLI installation was successful. The only problem is that /home/vipul/.local/bin is not currently in your PATH.
+
+You can see that here:
+
+You can now run: /home/vipul/.local/bin/aws --version
+
+and this confirms it works:
+
+aws-cli/2.36.44 Python/3.14.6 Linux/6.8.0-139-generic
+1. Add AWS CLI to PATH
+
+Run:
+
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+
+Then reload your shell configuration:
+
+source ~/.bashrc
+2. Verify
+
+Now run:
+
+aws --version
+
+
+Step 6 - Configure your AWS Account with your AWS CLI by (for sync your CLI     with AWS)
+       - Secret Key
+       - Access Key
+types of user in AWS - Console user and Programatic(created by Secret and Access key) user
+      - in Security Credentials - Default User - Access Key - Create Access Key
+ >aws configure
+ >aws iam get-user (configure your root account)
+Step 7 - Create Vmexport role in IAM Role by trust-policy.json file and run this command 
+document>aws iam create-role --role-name vmimport --assume-role-policy-document "file://trust-policy.json"
+Step 8 - Attach Admnistrator Permission/Policy on Vmexport role in AWS IAM 
+
+Step 9 - Import a VM as a Image or Snapshot
+       - create script "container.json"  (to create snapshot/Image)
+       - run 
+>aws ec2 import-snapshot \
+    --description "my centos" \
+    --disk-container "file://containers.json"
+    
+Step 10 - Go to your EC2 snapshot/image to Check the snapshot/image is created or not
+Step 11 - Create Image from Snapshot in your EC2 snapshot
+Step 12 - Go to your EC2 AMI and Launch instance from AMI by your created Image
+        - EC2 name - vmmigration

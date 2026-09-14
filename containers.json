@@ -3,6 +3,6 @@
     "Format": "VMDK",
     "UserBucket": {
         "S3Bucket": "vmmigrationonpremise1",
-        "S3Key": ""
+        "S3Key": "CentOS_version_5_and_earlier_64-bit-disk1.vmdk"
     }
 }
