@@ -101,6 +101,7 @@ The VMDK file contains the virtual machine's disk data.
 ![Create S3 Bucket](S3_Bucket.png)
 ![OVF Export](./Screenshots/VM_Export.png)
 <img src="./Screenshots/VM_Export.png" alt="VM Export" width="800"/>
+![OVF Export](./VM_Export.png)
 
 ☁️ AWS Configuration
 Step 3 — Create an S3 Bucket
