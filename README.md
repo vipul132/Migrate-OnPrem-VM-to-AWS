@@ -127,20 +127,17 @@ Bucket Name        : vmmigrationonpremise1
 Bucket Versioning  : Disabled
 Bucket Key         : Disabled
 
-⚠️ Security Note: Avoid enabling public access to the S3 bucket in a production environment. VM disk images can contain sensitive operating-system and application data. Prefer private access with appropriate IAM permissions.
+
 ![OVF Export](./Screenshots/S3_Bucket.png)
+⚠️ Security Note: Avoid enabling public access to the S3 bucket in a production environment. VM disk images can contain sensitive operating-system and application data. Prefer private access with appropriate IAM permissions.
 
 Step 4 — Upload VM Files to S3
 
 Upload the exported VM files to the S3 bucket.
 
-Example:
 
-vmmigrationonprem/
-│
-├── VM.ovf
-├── VM.vmdk
-└── VM.mf
+File Names - VM.ovf, VM.vmdk, VM.mf
+
 
 The VMDK file is the most important file because it contains the VM disk.
 ![OVF Export](./Screenshots/Import_VM_OVF_files.png)
@@ -163,11 +160,11 @@ Step 6 — Configure AWS CLI
 
 AWS CLI needs credentials to communicate with your AWS account.
 
-You can configure it using:
+You can configure it using this command:
 
-aws configure
+[root@host~]# aws configure
 
-You will be asked for:
+After "aws configure" cmd You will be asked for:
 
 AWS Access Key ID:
 AWS Secret Access Key:
@@ -179,15 +176,9 @@ Example:
 aws configure
 Verify AWS CLI Configuration
 
-Run:
-
-aws sts get-caller-identity
-
-This is the recommended way to verify which AWS identity the CLI is using.
-
 You can also use:
 
-aws iam get-user
+[root@host~]# aws iam get-user
 
 when the configured identity is an IAM user and has permission to call that API.
 
@@ -218,8 +209,8 @@ Secret Access Key
 ⚠️ Never upload AWS Access Keys or Secret Keys to GitHub.
 
 For production environments, prefer temporary credentials/roles where possible.
-![OVF Export](./Screenshots/Config_AWS_CLI.png)
 ![OVF Export](./Screenshots/config_AWS_CLI_PATH.png)
+![OVF Export](./Screenshots/Config_AWS_CLI.png)
 
 🔐 Step 7 — Create VM Import IAM Role
 
@@ -229,32 +220,11 @@ Create a file:
 
 trust-policy.json
 
-Example:
-
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "vmie.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole",
-      "Condition": {
-        "StringEquals": {
-          "sts:Externalid": "vmimport"
-        }
-      }
-    }
-  ]
-}
-
 Create the IAM role:
 
-aws iam create-role \
-    --role-name vmimport \
-    --assume-role-policy-document file://trust-policy.json
+[root@host~]# aws iam create-role \ --role-name vmimport \ --assume-role-policy-document file://trust-policy.json
 ![OVF Export](./Screenshots/create_role_in_cli.png)
+
 🔑 Step 8 — Attach IAM Policy
 
 The vmimport role requires permissions to access the S3 bucket and perform the required VM Import/Export operations.
@@ -270,33 +240,19 @@ VM Import/Export permissions
 Then attach the policy to:
 
 IAM → Roles → vmimport
-![OVF Export](./Screenshots/Import_VM_OVF_files.png)
+![OVF Export](./Screenshots/Admin_Access_policy.png)
 💾 Step 9 — Import VM as Snapshot
 
 Create a file:
 
 containers.json
 
-Example:
-
-[
-  {
-    "Description": "my centos",
-    "Format": "ova",
-    "UserBucket": {
-      "S3Bucket": "vmmigrationonprem",
-      "S3Key": "VM.ova"
-    }
-  }
-]
 
 If your VM is exported as an OVF/VMDK rather than a single OVA, the container configuration should match the actual files and supported import format.
 
 Run:
 
-aws ec2 import-snapshot \
-    --description "my centos" \
-    --disk-container "file://containers.json"
+[root@host~]# aws ec2 import-snapshot \ --description "my centos" \ --disk-container "file://containers.json"
 
 AWS will start the VM import process.
 ![OVF Export](./Screenshots/import_vm_cli.png)
@@ -326,10 +282,10 @@ EC2
 Snapshots
 
 Wait until the snapshot import is completed.
-![OVF Export](./Screenshots/import_vm_cli_2.png)
+![OVF Export](./Screenshots/import_vm_cli_2.png),
 ![OVF Export](./Screenshots/import_vm_cli_3.png)
 
-🖼️ Step 11 — Create AMI from Snapshot
+🖼️ Step 11 — Create AMI (image) from Snapshot
 
 Once the EBS snapshot has been successfully imported:
 
@@ -356,6 +312,7 @@ AWS will create an:
 
 AMI
 ![OVF Export](./Screenshots/create_img_from_snapshot.png)
+
 🚀 Step 12 — Launch EC2 Instance
 
 Navigate to:
@@ -382,6 +339,7 @@ Storage       : According to requirement
 
 Finally, launch the instance.
 ![OVF Export](./Screenshots/AMI.png)
+
 ![OVF Export](./Screenshots/Launch_EC2.png)
 
 ✅ Final Result
@@ -442,25 +400,6 @@ ip addr
 df -h
 free -h
 uname -a
-📁 Project Structure
-Migrate-OnPrem-VM-to-AWS/
-│
-├── README.md
-│
-├── trust-policy.json
-│
-├── containers.json
-│
-└── screenshots/
-    ├── on-prem-vm.png
-    ├── s3-bucket.png
-    ├── aws-cli.png
-    ├── iam-role.png
-    ├── import-task.png
-    ├── snapshot.png
-    ├── ami.png
-    └── ec2-instance.png
-🔒 Security Best Practices
 
 Do NOT upload the following files to GitHub:
 
@@ -506,23 +445,7 @@ Cloud migration
 
 The main objective of this project is to understand how an existing on-premises virtual machine can be migrated to AWS Cloud and converted into an AWS EC2 workload.
 
-This project demonstrates the complete migration workflow:
 
-On-Premises
-     ↓
-VM Export
-     ↓
-OVF / VMDK
-     ↓
-Amazon S3
-     ↓
-VM Import/Export
-     ↓
-EBS Snapshot
-     ↓
-AMI
-     ↓
-EC2
 👨‍💻 Author
 
 Vipul Pandey
